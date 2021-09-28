@@ -1,4 +1,4 @@
-module empolder.com
+module empolder
 
 go 1.17
 
