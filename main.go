@@ -18,7 +18,7 @@ func main()  {
 	{
 		v1.GET("", controller.GetHome)
 		v1.GET("/GetShopCategoryList", controller.GetShopCategoryList)
-		
+		v1.GET("/GetShopList", controller.GetShopList)
 	}
 
 	server := &http.Server{

@@ -28,7 +28,15 @@
     <van-tabs v-model="activeName">
       <van-tab title="新品" name="a">
         <van-grid :column-num="2" :gutter="10">
-          <van-grid-item v-for="value in 6" :key="value" icon="photo-o" text="文字" />
+          <van-grid-item v-for="(item, k) in shops" :key="k+'a'+item.name">
+            <van-image src="https://img01.yzcdn.cn/vant/apple-1.jpg"  width="10rem"
+  height="10rem" />
+            <div>
+              {{ item.name }}
+              <br>
+              <span style="color:red">￥{{ item.price }}</span>  
+            </div>
+          </van-grid-item>
         </van-grid>
       </van-tab>
       <van-tab title="精品" name="b">
@@ -56,7 +64,8 @@ export default {
     return {
       activeName: 'a',
       categorys: [],
-      extensions: []
+      extensions: [],
+      shops: []
     }
   },
   methods: {
@@ -70,10 +79,16 @@ export default {
         this.categorys = res.data
       })
     },
+    getShops () {
+      this.$API.get("/home/GetShopList").then(res => {
+        this.shops = res.data
+      })
+    }
   },
   created() {
     this.getCategorys()
     this.getList()
+    this.getShops()
   }
 }
 </script>
