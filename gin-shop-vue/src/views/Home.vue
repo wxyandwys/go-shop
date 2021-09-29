@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-bottom:50px">
     <van-nav-bar
       title="首页"
      >
@@ -14,9 +14,9 @@
       <van-swipe-item>3</van-swipe-item>
       <van-swipe-item>4</van-swipe-item>
     </van-swipe>
-    
+
     <van-grid square>
-      <van-grid-item v-for="value in 8" :key="value" icon="photo-o" text="文字" />
+      <van-grid-item v-for="(item,k) in categorys" :key="k" icon="photo-o" :text="item.name" />
     </van-grid>
 
     <van-divider
@@ -26,17 +26,17 @@
     </van-divider>
 
     <van-tabs v-model="activeName">
-      <van-tab title="标签 1" name="a">
+      <van-tab title="新品" name="a">
         <van-grid :column-num="2" :gutter="10">
           <van-grid-item v-for="value in 6" :key="value" icon="photo-o" text="文字" />
         </van-grid>
       </van-tab>
-      <van-tab title="标签 2" name="b">
+      <van-tab title="精品" name="b">
         <van-grid :column-num="2" :gutter="10">
           <van-grid-item v-for="value in 5" :key="value" icon="photo-o" text="文字" />
         </van-grid>
       </van-tab>
-      <van-tab title="标签 3" name="c">
+      <van-tab title="热门" name="c">
         <van-grid :column-num="2" :gutter="10">
           <van-grid-item v-for="value in 9" :key="value" icon="photo-o" text="文字" />
         </van-grid>
@@ -55,6 +55,8 @@ export default {
   data () {
     return {
       activeName: 'a',
+      categorys: [],
+      extensions: []
     }
   },
   methods: {
@@ -65,9 +67,13 @@ export default {
     },
     getCategorys () {
       this.$API.get("/home/GetShopCategoryList").then(res => {
-        console.log(res)
+        this.categorys = res.data
       })
-    }
+    },
+  },
+  created() {
+    this.getCategorys()
+    this.getList()
   }
 }
 </script>

@@ -11,6 +11,8 @@ axios.defaults.baseURL = 'http://localhost:8901/v1'
 //post请求头
 axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded;charset=UTF-8";
+
+axios.defaults.transformRequest = [obj => qs.stringify(obj)] 
 //设置超时
 axios.defaults.timeout = 20000;
 
@@ -45,6 +47,9 @@ export default {
                 method: 'post',
                 url,
                 data: qs.stringify(data),
+                headers: {
+                    'Token': 11111
+                }
             })
                 .then(res => {
                     resolve(res.data)
@@ -61,6 +66,9 @@ export default {
                 method: 'get',
                 url,
                 params: data,
+                headers: {
+                    'Token': 11111
+                }
             })
                 .then(res => {
                     resolve(res.data)
