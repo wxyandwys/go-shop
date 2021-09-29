@@ -14,7 +14,7 @@
       <van-swipe-item>3</van-swipe-item>
       <van-swipe-item>4</van-swipe-item>
     </van-swipe>
-
+    
     <van-grid square>
       <van-grid-item v-for="value in 8" :key="value" icon="photo-o" text="文字" />
     </van-grid>
@@ -61,6 +61,11 @@ export default {
     getList () {
       this.$API.get("/home").then(res => {
         console.log(11)
+      })
+    },
+    getCategorys () {
+      this.$API.get("/home/GetShopCategoryList").then(res => {
+        console.log(res)
       })
     }
   }
