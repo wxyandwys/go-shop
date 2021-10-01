@@ -1,16 +1,29 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import TarbalHeader from '../views/TarbalHeader.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'TarbalHeader',
+    component: TarbalHeader,
+    children: [
+      {
+        path: '',
+        name: 'Home',
+        component: Home,
+      }
+    ]
   },
+
+  {
+    path: '/shopData',
+    name: 'shopData',
+    component: () => import('../views/Shops/Shops.vue')
+  }
   /*
   {
     path: '/about',
@@ -21,7 +34,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

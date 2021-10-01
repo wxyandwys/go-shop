@@ -31,7 +31,7 @@
           <van-grid-item v-for="(item, k) in shops" :key="k+'a'+item.name">
             <van-image src="https://img01.yzcdn.cn/vant/apple-1.jpg"  width="10rem"
   height="10rem" />
-            <div>
+            <div @click="shopData(item)"  class="van-ellipsis">
               {{ item.name }}
               <br>
               <span style="color:red">￥{{ item.price }}</span>  
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import api from './../api/API'
 export default {
   data () {
     return {
@@ -70,19 +71,22 @@ export default {
   },
   methods: {
     getList () {
-      this.$API.get("/home").then(res => {
+      this.$API.get(api.HOME).then(res => {
         console.log(11)
       })
     },
     getCategorys () {
-      this.$API.get("/home/GetShopCategoryList").then(res => {
+      this.$API.get(api.SHOP_CATEGORY_LIST).then(res => {
         this.categorys = res.data
       })
     },
     getShops () {
-      this.$API.get("/home/GetShopList").then(res => {
+      this.$API.get(api.SHOP_SHOPS_LIST).then(res => {
         this.shops = res.data
       })
+    },
+    shopData (item) {
+      this.$router.push({path: "/shopData",query:{data: item.id}})
     }
   },
   created() {
