@@ -28,11 +28,11 @@
       v-model="show"
       :sku="sku"
       :goods="goods"
-      :goods-id="goodsId"
+      :goods-id="data"
       :quota="quota"
       :quota-used="quotaUsed"
       :hide-stock="sku.hide_stock"
-      :custom-stepper-config="customStepperConfig"
+      
       @buy-clicked="onBuyClicked"
       @add-cart="onAddCartClicked"
     />
@@ -79,8 +79,8 @@ export default {
               {
                 id: '2',
                 name: '蓝色',
-                imgUrl: 'https://img01.yzcdn.cn/2.jpg',
-                previewImgUrl: 'https://img01.yzcdn.cn/2.jpg',
+                imgUrl: "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d3a36269683536a9d46a044392ed37ab.png",
+                previewImgUrl: "https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d3a36269683536a9d46a044392ed37ab.png",
               },
               {
                 id: '3',
@@ -89,97 +89,77 @@ export default {
                 previewImgUrl: 'https://img01.yzcdn.cn/2.jpg',
               }
             ],
-            largeImageMode: true, //  是否展示大图模式
-          }
+          largeImageMode: true, //  是否展示大图模式
+        },
+        {
+          k: '尺寸',
+          k_s: 's2',
+          v: [
+            {
+              id: '1',
+              name: 'S'
+            },
+            {
+              id: '2',
+              name: 'L'
+            },
+            {
+              id: '3',
+              name: 'X'
+            }
+          ]
+        }
         ],
         // 所有 sku 的组合列表，比如红色、M 码为一个 sku 组合，红色、S 码为另一个组合
         list: [
           {
             id: 2259, // skuId
             s1: '1', // 规格类目 k_s 为 s1 的对应规格值 id
-            //s2: '1', // 规格类目 k_s 为 s2 的对应规格值 id
-            price: 100, // 价格（单位分）
-            stock_num: 110 // 当前 sku 组合对应的库存
+            s2: '1', // 规格类目 k_s 为 s2 的对应规格值 id
+            price: 1000, // 价格（单位分）
+            stock_num: 100 // 当前 sku 组合对应的库存
           },
           {
             id: 2260, // skuId
             s1: '2', // 规格类目 k_s 为 s1 的对应规格值 id
-            //s2: '1', // 规格类目 k_s 为 s2 的对应规格值 id
-            price: 100, // 价格（单位分）
-            stock_num: 110 // 当前 sku 组合对应的库存
+            s2: '2', // 规格类目 k_s 为 s2 的对应规格值 id
+            price: 1800, // 价格（单位分）
+            stock_num: 10 // 当前 sku 组合对应的库存
           },
           {
             id: 2261, // skuId
             s1: '3', // 规格类目 k_s 为 s1 的对应规格值 id
-            //s2: '3', // 规格类目 k_s 为 s2 的对应规格值 id
+            s2: '3', // 规格类目 k_s 为 s2 的对应规格值 id
             price: 100, // 价格（单位分）
-            stock_num: 110 // 当前 sku 组合对应的库存
-          },
-        ],
-        price: '1.00', // 默认价格（单位元）
-        stock_num: 227, // 商品总库存
-        collection_id: 2261, // 无规格商品 skuId 取 collection_id，否则取所选 sku 组合对应的 id
-        none_sku: false, // 是否无规格商品
-        /*
-        messages: [
-          {
-            // 商品留言
-            datetime: '0', // 留言类型为 time 时，是否含日期。'1' 表示包含
-            multiple: '0', // 留言类型为 text 时，是否多行文本。'1' 表示多行
-            name: '留言', // 留言名称
-            type: 'text', // 留言类型，可选: id_no（身份证）, text, tel, date, time, email
-            required: '1', // 是否必填 '1' 表示必填
-            placeholder: '' // 可选值，占位文本
+            stock_num: 10 // 当前 sku 组合对应的库存
           },
           {
-            // 商品留言
-            datetime: '0', // 留言类型为 time 时，是否含日期。'1' 表示包含
-            multiple: '0', // 留言类型为 text 时，是否多行文本。'1' 表示多行
-            name: '电话', // 留言名称
-            type: 'tel', // 留言类型，可选: id_no（身份证）, text, tel, date, time, email
-            required: '1', // 是否必填 '1' 表示必填
-            placeholder: '' // 可选值，占位文本
+            id: 2262,
+            s1: '1',
+            s2: '3',
+            price: 2000000,
+            stock_num: 99
+          },
+          {
+            id: 2262,
+            s1: '2',
+            s2: '3',
+            price: 2000000,
+            stock_num: 99
           }
         ],
-        */
+        price: '1.00', // 默认价格（单位元）
+        stock_num: 120, // 商品总库存
+        none_sku: false, // 是否无规格商品
         hide_stock: false // 是否隐藏剩余库存
       },
       goods: {
         // 默认商品 sku 缩略图
         picture: 'https://img01.yzcdn.cn/2.jpg'
       },
-      customStepperConfig: {
-        // 自定义限购文案
-        quotaText: '每次限购xxx件',
-        // 自定义步进器超过限制时的回调
-        handleOverLimit: (data) => {
-          const { action, limitType, quota, quotaUsed, startSaleNum } = data;
-
-          if (action === 'minus') {
-            this.$toast(startSaleNum > 1  ? `${startSaleNum}件起售` : '至少选择一件商品');
-          } else if (action === 'plus') {
-            // const { LIMIT_TYPE } = Sku.skuConstants;
-            if (limitType === LIMIT_TYPE.QUOTA_LIMIT) {
-              let msg = `单次限购${quota}件`;
-              if (quotaUsed > 0) msg += `，你已购买${quotaUsed}`;
-              this.$toast(msg);
-            } else {
-              this.$toast('库存不够了');
-            }
-          }
-        },
-        // 步进器变化的回调
-        handleStepperChange: currentValue => {},
-        // 库存
-        stockNum: 1999,
-        // 格式化库存
-        stockFormatter: stockNum => {},
-      },
-      goodsId: '1',
       show: false,
-      picture: undefined,
-      quota: 0,
-      quotaUsed: 1
+      quota: 4,
+      quotaUsed: 0
     }
   },
   methods: {
@@ -205,10 +185,10 @@ export default {
       this.current = index;
     },
     onBuyClicked(e) {
-
+      console.log(e)
     },
     onAddCartClicked(e) {
-
+      console.log(e)
     }
   },
   mounted() {

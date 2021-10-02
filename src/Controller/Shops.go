@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"empolder/src/model"
 	"empolder/src/config"
+//	"log"
 )
 
 func GetShopList(c *gin.Context)  {
@@ -22,5 +23,33 @@ func GetShop(c *gin.Context)  {
 	data["shop"] = shop
 	data["imgs"] = imgs
 	// c.JSON(200, gin.H{"code": 200, "message": "成功", "data": data })
+	c.JSON(200, config.CodeJSON(200, "成功", data))
+}
+
+func GetShopTree(c *gin.Context)  {
+	trees := []model.ShopTrees{}
+	shopId := c.Query("id")
+	config.DBHelper.Where("shops_id = ?", shopId).Find(&trees)
+	for i, data := range trees {
+		treeVs := []model.ShopTreeVs{}
+		config.DBHelper.Where("tree_id = ?", data.Id).Find(&treeVs)		
+		trees[i].Vs = treeVs
+	}
+	data :=  map[string]interface{}{}
+	data["trees"] = trees
+	c.JSON(200, config.CodeJSON(200, "成功", data))
+}
+
+func GetShopListSku(c *gin.Context)  {
+	ls := []model.ShopLists{}
+	shopId := c.Query("id")
+	config.DBHelper.Where("shop_id = ?", shopId).Find(&ls)
+	for i, data := range ls {
+		sls := []model.ShopListSkus{}
+		config.DBHelper.Where("id = ?", data.Id).Find(&sls)
+		ls[i].Slsu = sls
+	}
+	data := map[string]interface{}{}
+	data["list"] = ls
 	c.JSON(200, config.CodeJSON(200, "成功", data))
 }

@@ -20,6 +20,8 @@ func main()  {
 		v1.GET("/GetShopCategoryList", controller.GetShopCategoryList)
 		v1.GET("/GetShopList", controller.GetShopList)
 		v1.GET("/GetShop", controller.GetShop)
+		v1.GET("/GetShopTree", controller.GetShopTree)
+		v1.GET("/GetShopListSku", controller.GetShopListSku)
 	}
 
 	server := &http.Server{

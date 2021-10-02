@@ -31,7 +31,7 @@
           <van-grid-item v-for="(item, k) in shops" :key="k+'a'+item.name">
             <van-image src="https://img01.yzcdn.cn/vant/apple-1.jpg"  width="10rem"
   height="10rem" />
-            <div @click="shopData(item)"  class="van-ellipsis">
+            <div @click="shopData(item)"  >
               {{ item.name }}
               <br>
               <span style="color:red">￥{{ item.price }}</span>  
