@@ -6,6 +6,7 @@ type Shops struct {
 	Name string `json:"name"`
 	Img string	`json:"img"`
 	Price float64	`json:"price"`
+	Num int `json:"num"`
 	Sale int	`json:"sale"`
 	CategoryId int	`json:"cid"`
 	Quote int `json:"quote"`
@@ -20,19 +21,19 @@ type ShopTrees struct {
 	Id int `json:"id"`
 	K string `json:"k"`
 	Ks string `json:"k_s"`
-	LargeImageMode bool `json:"large_image_mode"`
-	ShopId int
+	LargeImageMode bool `json:"largeImageMode"`
+	ShopsId int `json:"shop_id"`
 	//Vs map[string]interface{}
-	Vs []ShopTreeVs	`json:"vs"`
+	Vs []ShopTreeVs	`json:"v"`
 }
 
 // 规格
 type ShopTreeVs struct {
 	Id int `json:"id"`
 	Name string `json:"name"`
-	ImgUrl string `json:"img_url"`
-	PreviewImgUrl string `json:"preview_img_url"`
-	TreeId int 
+	ImgUrl string `json:"imgUrl"`
+	PreviewImgUrl string `json:"previewImgUrl"`
+	TreeId int `json:"tree_id"`
 }
 
 //所有 sku 的组合列表
@@ -49,4 +50,5 @@ type ShopListSkus struct {
 	Id int `json:"id"`
 	K string `json:"k"`
 	V string `json:"v"`
+	Ks string `json:"k_s"`
 }

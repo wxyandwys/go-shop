@@ -46,7 +46,8 @@ func GetShopListSku(c *gin.Context)  {
 	config.DBHelper.Where("shop_id = ?", shopId).Find(&ls)
 	for i, data := range ls {
 		sls := []model.ShopListSkus{}
-		config.DBHelper.Where("id = ?", data.Id).Find(&sls)
+		//config.DBHelper.Where("id = ?", data.Id).Find(&sls)
+		config.DBHelper.Table("shop_list_skus").Select("shop_list_skus.id,shop_list_skus.k,shop_list_skus.v,ks").Joins("left join shop_trees on shop_trees.id = shop_list_skus.k").Where("shop_list_skus.id = ?", data.Id).Scan(&sls)
 		ls[i].Slsu = sls
 	}
 	data := map[string]interface{}{}

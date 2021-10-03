@@ -1,5 +1,6 @@
 <template>
   <div>
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
     <van-nav-bar
       title="标题"
       left-text="返回"
@@ -26,19 +27,55 @@
 
     <van-sku
       v-model="show"
-      :sku="sku"
+      :sku="tmp"
       :goods="goods"
       :goods-id="data"
       :quota="quota"
       :quota-used="quotaUsed"
-      :hide-stock="sku.hide_stock"
+      :hide-stock="tmp.hide_stock"
       
       @buy-clicked="onBuyClicked"
       @add-cart="onAddCartClicked"
     />
     <van-cell title="选择产品" is-link  @click="show = true"/>
-    
 
+    <van-cell title="显示分享面板" @click="showShare = true"  is-link  />
+    <van-share-sheet
+      v-model="showShare"
+      title="立即分享给好友"
+      :options="options"
+      @select="onSelect"
+    />
+
+    <van-cell is-link title="产品参数" @click="show1 = true" />
+    <van-action-sheet v-model="show1" title="标题">
+      <van-row class="hr">
+        <van-col span="8" class="spansheet">名称</van-col>
+        <van-col span="16" class="spansheet">内容</van-col>
+      </van-row>
+      <van-row class="hr">
+        <van-col span="8" class="spansheet">名称</van-col>
+        <van-col span="16" class="spansheet">内容</van-col>
+      </van-row>
+      <van-row class="hr">
+        <van-col span="8" class="spansheet">名称</van-col>
+        <van-col span="16" class="spansheet">内容</van-col>
+      </van-row>
+      <van-row class="hr">
+        <van-col span="8" class="spansheet">名称</van-col>
+        <van-col span="16" class="spansheet">内容</van-col>
+      </van-row>
+    </van-action-sheet>
+      <p>刷新次数: {{ count }}</p>
+      <p>刷新次数: {{ count }}</p>
+      <p>刷新次数: {{ count }}</p>
+      <p>刷新次数: {{ count }}</p>
+      <p>刷新次数: {{ count }}</p>
+      <p>刷新次数: {{ count }}</p>
+      <p>刷新次数: {{ count }}</p>
+      <p>刷新次数: {{ count }}</p>
+      <p>刷新次数: {{ count }}</p>
+    </van-pull-refresh>
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" @click="onClickIcon" />
       <van-goods-action-icon icon="cart-o" text="购物车" @click="onClickIcon" />
@@ -50,6 +87,7 @@
         @click="onClickButton"
       />
     </van-goods-action>
+    
   </div>
 </template>
 
@@ -57,7 +95,9 @@
 import api from "./../../api/API"
 export default {
   data () {
+
     return {
+      show1: false,
       data: this.$route.query.data,
       current: 0,
       shop: {},
@@ -151,15 +191,33 @@ export default {
         price: '1.00', // 默认价格（单位元）
         stock_num: 120, // 商品总库存
         none_sku: false, // 是否无规格商品
-        hide_stock: false // 是否隐藏剩余库存
+        hide_stock: false, // 是否隐藏剩余库存
       },
       goods: {
         // 默认商品 sku 缩略图
         picture: 'https://img01.yzcdn.cn/2.jpg'
       },
       show: false,
-      quota: 4,
-      quotaUsed: 0
+      quota: 0,
+      quotaUsed: 0,
+      tmp: {
+        tree: [],
+        list: [],
+        price: undefined,
+        stock_num: undefined,
+        none_sku: false,
+        hide_stock: false,
+      },
+      showShare: false,
+      options: [
+        { name: '微信', icon: 'wechat' },
+        { name: '微博', icon: 'weibo' },
+        { name: '复制链接', icon: 'link' },
+        { name: '分享海报', icon: 'poster' },
+        { name: '二维码', icon: 'qrcode' },
+      ],
+      count: 0,
+      isLoading: false,
     }
   },
   methods: {
@@ -179,6 +237,45 @@ export default {
       this.$API.get(api.SHOP, shop).then(res => {
         this.shop = res.data.shop
         this.imgs = res.data.imgs
+        this.quota = res.data.shop.quote
+        this.tmp.price = res.data.shop.price
+        this.tmp.stock_num = res.data.shop.num
+        this.tmp.hide_stock = res.data.shop.hide_stock
+        this.tmp.none_sku = res.data.shop.none_sku
+        this.goods.picture = res.data.shop.picture
+      })
+    },
+    GetShopTree() {
+      let shop = {
+        id: this.data
+      }
+      this.$API.get(api.SHOP_TREE, shop ).then(res => {
+        
+        this.tmp.tree = res.data.trees
+      })
+    },
+    GetShopListSku() {
+      let shop = {
+        id: this.data
+      }
+      this.$API.get(api.SHOP_LIST_SKU, shop).then(res => {
+        
+        var list = res.data.list
+        
+        for (let i = 0; i < list.length; i++) {
+          var z = new Map()
+          z.set('id', list[i].id)
+          z.set('price', list[i].price)
+          z.set('stock_num', list[i].stock_num)
+          for (let j = 0;  j < list[i].slsu.length; j++) {
+            z.set(list[i].slsu[j].k_s, list[i].slsu[j].v)
+          }
+          const obj = [...z.entries()].reduce((obj, [key, value]) => (obj[key] = value, obj), {})
+          list[i] = obj
+        }
+        
+        this.tmp.list = list
+        
       })
     },
     onChange(index) {
@@ -189,10 +286,25 @@ export default {
     },
     onAddCartClicked(e) {
       console.log(e)
-    }
+    },
+    onSelect(option) {
+      this.$toast(option.name);
+      this.showShare = false;
+    },
+    onRefresh() {
+      setTimeout(() => {
+        this.$toast('刷新成功');
+        this.isLoading = false;
+        this.count++;
+      }, 1000);
+    },
+
   },
   mounted() {
     this.getShop()
+    this.GetShopTree()
+    this.GetShopListSku()
+
   }
 }
 </script>
@@ -206,5 +318,12 @@ export default {
     font-size: 12px;
     background: rgba(0, 0, 0, 0.7);
     color: #fff;
+  }
+  .spansheet{
+    padding:12px 8px
+  }
+  .hr {
+    border-bottom: 1px solid #eee;
+    padding:0 10px;
   }
 </style>

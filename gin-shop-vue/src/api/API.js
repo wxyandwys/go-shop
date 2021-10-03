@@ -9,6 +9,10 @@ var api = {
   SHOP_SHOPS_LIST: HOME + "/GetShopList",
 
   SHOP: HOME + "/GetShop",
+
+  SHOP_TREE: HOME + "/GetShopTree",
+
+  SHOP_LIST_SKU: HOME + "/GetShopListSku"
 }
 
 export default api
