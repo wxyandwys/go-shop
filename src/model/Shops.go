@@ -52,3 +52,11 @@ type ShopListSkus struct {
 	V string `json:"v"`
 	Ks string `json:"k_s"`
 }
+
+// 产品参数
+type ShopParameters struct {
+	Id int `json:"id"`
+	K string `json:"k"`
+	V string `json:"v"`
+	ShopId	int `json:"shop_id"`
+}

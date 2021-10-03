@@ -12,7 +12,9 @@ var api = {
 
   SHOP_TREE: HOME + "/GetShopTree",
 
-  SHOP_LIST_SKU: HOME + "/GetShopListSku"
+  SHOP_LIST_SKU: HOME + "/GetShopListSku",
+
+  SHOP_PARAMETER: HOME + "/GetShopParameters"
 }
 
 export default api

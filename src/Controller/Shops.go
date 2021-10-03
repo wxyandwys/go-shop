@@ -54,3 +54,12 @@ func GetShopListSku(c *gin.Context)  {
 	data["list"] = ls
 	c.JSON(200, config.CodeJSON(200, "成功", data))
 }
+
+func GetShopParameters(c *gin.Context)  {
+	parameters := []model.ShopParameters{}
+	shopId := c.Query("id")
+	config.DBHelper.Where("shop_id = ?", shopId).Find(&parameters)
+	data := map[string]interface{}{}
+	data["parameters"] = parameters
+	c.JSON(200, config.CodeJSON(200, "成功", data))
+}

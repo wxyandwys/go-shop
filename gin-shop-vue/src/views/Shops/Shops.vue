@@ -33,7 +33,7 @@
       :quota="quota"
       :quota-used="quotaUsed"
       :hide-stock="tmp.hide_stock"
-      
+      ref="skuv"
       @buy-clicked="onBuyClicked"
       @add-cart="onAddCartClicked"
     />
@@ -48,22 +48,10 @@
     />
 
     <van-cell is-link title="产品参数" @click="show1 = true" />
-    <van-action-sheet v-model="show1" title="标题">
-      <van-row class="hr">
-        <van-col span="8" class="spansheet">名称</van-col>
-        <van-col span="16" class="spansheet">内容</van-col>
-      </van-row>
-      <van-row class="hr">
-        <van-col span="8" class="spansheet">名称</van-col>
-        <van-col span="16" class="spansheet">内容</van-col>
-      </van-row>
-      <van-row class="hr">
-        <van-col span="8" class="spansheet">名称</van-col>
-        <van-col span="16" class="spansheet">内容</van-col>
-      </van-row>
-      <van-row class="hr">
-        <van-col span="8" class="spansheet">名称</van-col>
-        <van-col span="16" class="spansheet">内容</van-col>
+    <van-action-sheet v-model="show1" title="产品参数">
+      <van-row class="hr" v-for="(item, k) in parameters" :key="k">
+        <van-col span="8" class="spansheet">{{ item.k }}</van-col>
+        <van-col span="16" class="spansheet">{{ item.v }}</van-col>
       </van-row>
     </van-action-sheet>
       <p>刷新次数: {{ count }}</p>
@@ -218,6 +206,7 @@ export default {
       ],
       count: 0,
       isLoading: false,
+      parameters: []
     }
   },
   methods: {
@@ -228,6 +217,7 @@ export default {
       this.$toast('点击图标');
     },
     onClickButton() {
+      console.log(this.$refs.skuv.getSkuData())
       this.$toast('点击按钮');
     },
     getShop() {
@@ -278,6 +268,14 @@ export default {
         
       })
     },
+    GetShopParameters() {
+      let shop = {
+        id: this.data
+      }
+      this.$API.get(api.SHOP_PARAMETER, shop).then(res => {
+        this.parameters = res.data.parameters
+      })
+    },
     onChange(index) {
       this.current = index;
     },
@@ -292,6 +290,11 @@ export default {
       this.showShare = false;
     },
     onRefresh() {
+      this.getShop()
+      this.GetShopTree()
+      this.GetShopListSku()
+      this.GetShopParameters()
+
       setTimeout(() => {
         this.$toast('刷新成功');
         this.isLoading = false;
@@ -304,7 +307,7 @@ export default {
     this.getShop()
     this.GetShopTree()
     this.GetShopListSku()
-
+    this.GetShopParameters()
   }
 }
 </script>
