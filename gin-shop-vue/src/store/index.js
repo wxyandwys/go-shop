@@ -17,6 +17,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    GetUser: (context, user) => {
+      context.commit('SET_USER',user)
+    }
   },
   modules: {
   }

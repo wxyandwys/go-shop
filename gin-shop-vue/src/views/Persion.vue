@@ -1,6 +1,6 @@
 <template>
   <div>
-    <login v-if="userStauct == null || userStauct == ''"></login>
+    <login v-if="getUser"></login>
     <persion-center v-else></persion-center>
   </div>
 </template>
@@ -16,6 +16,15 @@ export default {
   data() {
     return {
       userStauct: this.$store.state.user
+    }
+  },
+  computed: {
+    getUser() {
+      if (this.$store.state.user == null || this.$store.state.user == '') {
+        return true
+      } else {
+        return false
+      }
     }
   }
 }

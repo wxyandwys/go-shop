@@ -53,6 +53,14 @@ func main()  {
 			controller.ShopLogin(c, value)
 		})
 
+		{
+			v1.Use(config.LoginUser())
+			v1.POST("/GetUser", controller.GetUser)
+			{
+				v1.GET("/ShowCollection", controller.ShowCollection)
+			}
+		}
+
 	}
 
 	server := &http.Server{

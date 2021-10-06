@@ -27,7 +27,9 @@ var api = {
   // 登录
   SHOP_LOGIN: HOME + "/ShopLogin",
   // 验证码
-  CAPTCHA: CAPTCHA
+  CAPTCHA: CAPTCHA,
+  // 获取用户
+  SHOP_USER: HOME + "/GetUser"
 
 }
 

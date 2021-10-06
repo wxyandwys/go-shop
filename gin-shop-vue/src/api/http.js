@@ -1,5 +1,6 @@
 import axios from "axios";
 import qs from "qs";
+import store from './../store/index'
 import {
     Dialog
 } from "vant";
@@ -34,10 +35,19 @@ axios.interceptors.response.use(
         }
     },
     error => {
-        Dialog.alert({
-            title: "提示",
-            message: "网络请求失败，请刷新重试"
-        });
+        if (error.response.status == 402) {
+            Dialog.alert({
+                title: "提示",
+                message: error.response.data.text//"用户超时，请重新登录"
+            });
+            store.state.user = null
+        } else {
+            Dialog.alert({
+                title: "提示",
+                message: "网络请求失败，请刷新重试"
+            });
+        }
+        
     }
 );
 export default {
@@ -48,7 +58,8 @@ export default {
                 url,
                 data: data,
                 headers: {
-                    'Token': 11111
+                    'Token': 11111,
+                    'AccessToken': store.state.user != null ? store.state.user : ''
                 }
             })
                 .then(res => {

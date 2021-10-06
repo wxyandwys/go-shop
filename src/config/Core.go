@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"github.com/garyburd/redigo/redis"
 )
 /*
 func Cors() gin.HandlerFunc {
@@ -24,6 +25,7 @@ func Cors() gin.HandlerFunc {
 	}
 }
 */
+// 跨域
 func Cors() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		method := context.Request.Method
@@ -38,7 +40,7 @@ func Cors() gin.HandlerFunc {
 		context.Next()
 	}
 }
-
+// 普通权限
 func MustLogin() gin.HandlerFunc  {
 	return func (c *gin.Context)  {
 		if status :=  c.Request.Header.Get("Token"); status == "" {
@@ -52,5 +54,21 @@ func MustLogin() gin.HandlerFunc  {
 				c.Next()
 			}
 		}
+	}
+}
+// 用户登录后权限
+func LoginUser() gin.HandlerFunc  {
+	return func (c *gin.Context)  {
+		status :=  c.Request.Header.Get("AccessToken")
+
+		conn := RedisDefaultPool.Get()
+		is_key_exit, _ := redis.Bool(conn.Do("EXISTS",status))
+		if !is_key_exit {
+			c.JSON(402, gin.H{"text": "用户超时，请重新登录", "msg": status} )
+			c.Abort()
+		} else {
+			c.Next()
+		}
+	
 	}
 }

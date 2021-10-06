@@ -58,6 +58,9 @@ export default {
         this.login.password = ''
         if (res.code == 201) {
           this.imgSrc()
+        } else {
+          this.$store.dispatch('GetUser', res.data.userToken)
+          sessionStorage.setItem('user', res.data.userToken)
         }
       })
       

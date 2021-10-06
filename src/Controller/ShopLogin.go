@@ -7,6 +7,7 @@ import (
 	"crypto/md5"
 	"fmt"
 	"time"
+	"encoding/json"
 )
 
 func ShopLogin(c *gin.Context, code string)  {
@@ -22,8 +23,11 @@ func ShopLogin(c *gin.Context, code string)  {
 		pswMd5 := fmt.Sprintf("%x", psw)
 		if username == users.Username && pswMd5 == users.Password {
 			userToken := md5.Sum([]byte(username + fmt.Sprintf("%x", time.Now().Unix()) ))
+			
 			conn := config.RedisDefaultPool.Get()
-			conn.Do("setex", fmt.Sprintf("%x", userToken), 60 * 60 , users)
+			// 把数据转序列化成json数据存入redis
+			user, _ := json.Marshal(users)
+			conn.Do("setex", fmt.Sprintf("%x", userToken), 60 * 60 , user)
 			data := map[string]interface{}{}
 			data["userToken"] = fmt.Sprintf("%x", userToken)
 			c.JSON(200, config.CodeJSON(200, "登录成功", data))

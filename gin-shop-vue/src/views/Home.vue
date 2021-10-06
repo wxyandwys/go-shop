@@ -29,7 +29,7 @@
       <van-tab title="新品" name="a">
         <van-grid :column-num="2" :gutter="10">
           <van-grid-item v-for="(item, k) in shops" :key="k+'a'+item.name">
-            <van-image src="https://img01.yzcdn.cn/vant/apple-1.jpg"  width="10rem"
+            <van-image :src="item.img"  width="10rem"
   height="10rem" />
             <div @click="shopData(item)"  >
               {{ item.name }}
