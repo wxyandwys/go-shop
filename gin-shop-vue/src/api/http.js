@@ -46,7 +46,7 @@ export default {
             axios({
                 method: 'post',
                 url,
-                data: qs.stringify(data),
+                data: data,
                 headers: {
                     'Token': 11111
                 }

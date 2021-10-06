@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Category from '../views/Category.vue'
+import Cart from '../views/Cart.vue'
+import Persion from '../views/Persion.vue'
+import CategoryChildren from '../views/CategoryChildren.vue'
+
 import TarbalHeader from '../views/TarbalHeader.vue'
 
 Vue.use(VueRouter)
@@ -15,6 +20,27 @@ const routes = [
         path: '',
         name: 'Home',
         component: Home,
+      },
+      {
+        path: '/category',
+        name: 'Category',
+        component: Category,
+      },
+      {
+        path: '/cart',
+        name: 'Cart',
+        component: Cart
+      },
+      {
+        path: '/persion',
+        name: 'Persion',
+        component: Persion
+      },
+
+      {
+        path: '/categoryChildren',
+        name: 'CategoryChildren',
+        component: CategoryChildren,
       }
     ]
   },

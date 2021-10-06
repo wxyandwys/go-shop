@@ -1,7 +1,7 @@
 <template>
   <div style="margin-bottom:50px">
     <van-nav-bar
-      title="首页"
+      title="首页" style="background: #f2f3f5; "
      >
       <template #right>
         <van-icon name="search" size="18" />

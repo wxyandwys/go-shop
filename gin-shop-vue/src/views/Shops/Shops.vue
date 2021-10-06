@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-bottom:50px">
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
     <van-nav-bar
       title="标题"

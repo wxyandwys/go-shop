@@ -38,3 +38,19 @@ func Cors() gin.HandlerFunc {
 		context.Next()
 	}
 }
+
+func MustLogin() gin.HandlerFunc  {
+	return func (c *gin.Context)  {
+		if status :=  c.Request.Header.Get("Token"); status == "" {
+			c.JSON(http.StatusUnauthorized, gin.H{"text": "没有权限1", "msg": status} )
+			c.Abort()
+		} else {
+			if c.Request.Header.Get("Token") != "11111" {
+				c.JSON(http.StatusUnauthorized, "没有权限2")
+				c.Abort()
+			} else {
+				c.Next()
+			}
+		}
+	}
+}

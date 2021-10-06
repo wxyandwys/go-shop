@@ -6,14 +6,33 @@ import (
 	"net/http"
 	"log"
 	"empolder/src/controller"
-	
+
 	"empolder/src/config"
 	// 跨域
+	//"github.com/gin-contrib/sessions"
+	//"github.com/garyburd/redigo/redis"
 )
 
 func main()  {
+	// conn := config.RedisDefaultPool.Get()
 	router := gin.Default()
+
+	router.Use(config.Session("topgoer"))
+	router.GET("/captcha", func(c *gin.Context) {
+			config.Captcha(c, 4)
+	})
+	/*
+	router.GET("/captcha/verify/:value", func(c *gin.Context) {
+		value := c.Param("value")
+		if config.CaptchaVerify(c, value) {
+				c.JSON(http.StatusOK, gin.H{"status": 0, "msg": "success"})
+		} else {
+				c.JSON(http.StatusOK, gin.H{"status": 1, "msg": "failed"})
+		}
+	})
+	*/
 	router.Use(config.Cors())
+	router.Use(config.MustLogin())
 	v1 := router.Group("/v1/home")
 	{
 		v1.GET("", controller.GetHome)
@@ -23,6 +42,27 @@ func main()  {
 		v1.GET("/GetShopTree", controller.GetShopTree)
 		v1.GET("/GetShopListSku", controller.GetShopListSku)
 		v1.GET("/GetShopParameters", controller.GetShopParameters)
+		v1.GET("/GetShopCategoryListParent", controller.GetShopCategoryListParent)
+		v1.GET("/GetShopCategoryListChildren", controller.GetShopCategoryListChildren)
+		v1.GET("/GetShopCategoryListChildrenById", controller.GetShopCategoryListChildrenById)
+		// 登录
+		v1.POST("/ShopLogin", func (c *gin.Context)  {
+			value := c.PostForm("value")
+			controller.ShopLogin(c, value)
+		})
+
+		v1.GET("/captcha/verify/:value", func(c *gin.Context) {
+
+			value := c.Param("value")
+
+			if config.CaptchaVerify(c, value) {
+					c.JSON(http.StatusOK, gin.H{"status": 0, "msg": "success"})
+			} else {
+					c.JSON(http.StatusOK, gin.H{"status": 1, "msg": "failed"})
+			}
+			
+			
+		})
 	}
 
 	server := &http.Server{
