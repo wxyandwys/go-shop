@@ -28,7 +28,6 @@
         :rules="[{ required: true, message: '请填写验证码' }]"
       />
       <img :src="img" alt="" @click="imgSrc">
-      <button @click="cc">cc</button>
       <div style="margin: 16px;">
         <van-button round block type="info" native-type="submit">提交</van-button>
       </div>
@@ -38,6 +37,7 @@
 
 <script>
 import api from './../api/API'
+import md5 from 'js-md5'
 export default {
   data() {
     return {
@@ -46,22 +46,32 @@ export default {
         password: '',
         value: undefined
       },
-      img: api.CAPTCHA
-    };
+      img: api.CAPTCHA ,
+      random: undefined
+    }
   },
   methods: {
     onSubmit(values) {
-      console.log('submit', values);
-      this.$API.post(api.SHOP_LOGIN , this.login).then(res => {
-
+      this.login.password = md5(this.login.password)
+      
+      this.$API.post(api.SHOP_LOGIN + "/" + this.random, this.login).then(res => {
+        this.login.password = ''
+        if (res.code == 201) {
+          this.imgSrc()
+        }
       })
+      
     },
     imgSrc() {
-      this.img = api.CAPTCHA + '?v=' + Math.floor(Math.random()*1000000)
+      this.random = Math.floor(Math.random()*1000000)
+      this.img = api.CAPTCHA + '/' + this.random
     },
     cc() {
-      this.$API.get("/home/captcha/verify/" + this.login.value).then(res => {})
+      this.$API.get("/home/captcha/verify/" + this.random).then(res => {})
     }
   },
+  created() {
+    this.imgSrc()
+  }
 }
 </script>

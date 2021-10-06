@@ -18,8 +18,10 @@ func main()  {
 	router := gin.Default()
 
 	router.Use(config.Session("topgoer"))
-	router.GET("/captcha", func(c *gin.Context) {
-			config.Captcha(c, 4)
+	router.GET("/captcha/:value", func(c *gin.Context) {
+		//value := c.Param("value")
+		//c.JSON(200, gin.H{"value": value})
+		config.Captcha(c, 4)
 	})
 	/*
 	router.GET("/captcha/verify/:value", func(c *gin.Context) {
@@ -46,23 +48,11 @@ func main()  {
 		v1.GET("/GetShopCategoryListChildren", controller.GetShopCategoryListChildren)
 		v1.GET("/GetShopCategoryListChildrenById", controller.GetShopCategoryListChildrenById)
 		// 登录
-		v1.POST("/ShopLogin", func (c *gin.Context)  {
+		v1.POST("/ShopLogin/:img", func (c *gin.Context)  {
 			value := c.PostForm("value")
 			controller.ShopLogin(c, value)
 		})
 
-		v1.GET("/captcha/verify/:value", func(c *gin.Context) {
-
-			value := c.Param("value")
-
-			if config.CaptchaVerify(c, value) {
-					c.JSON(http.StatusOK, gin.H{"status": 0, "msg": "success"})
-			} else {
-					c.JSON(http.StatusOK, gin.H{"status": 1, "msg": "failed"})
-			}
-			
-			
-		})
 	}
 
 	server := &http.Server{

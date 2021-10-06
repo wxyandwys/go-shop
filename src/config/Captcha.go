@@ -44,26 +44,29 @@ func Captcha(c *gin.Context, length ...int) {
     captchaId := captcha.NewLen(l)
     //session := sessions.Default(c)
     //session.Set("captcha", captchaId)
+    index := c.Param("value")
     // redis测试
     conn := RedisDefaultPool.Get()
-    conn.Do("setex", "captcha", 200, captchaId)
+    conn.Do("setex", "captcha" + index, 200, captchaId)
 
    // _ = session.Save()
     _ = Serve(c.Writer, c.Request, captchaId, ".png", "zh", false, w, h)
 }
 func CaptchaVerify(c *gin.Context, code string) bool {
     //session := sessions.Default(c)
+    index := c.Param("img")
     conn := RedisDefaultPool.Get()
-    captchaId ,_ := redis.Bytes(conn.Do("get", "captcha"))
+    captchaId ,_ := redis.Bytes(conn.Do("get", "captcha" + index))
     s := string(captchaId)
     if  s != "" {
-        conn.Do("del", "captcha")
+        
         /*
         session.Delete("captcha")
         _ = session.Save()
         */
         
         if captcha.VerifyString(s, code) {
+            conn.Do("del", "captcha" + index)
             return true
         } else {
             return false
