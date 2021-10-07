@@ -6,6 +6,8 @@ import Cart from '../views/Cart.vue'
 import Persion from '../views/Persion.vue'
 import CategoryChildren from '../views/CategoryChildren.vue'
 
+import Collection from '../views/PersionCenter/Collection.vue'
+
 import TarbalHeader from '../views/TarbalHeader.vue'
 
 Vue.use(VueRouter)
@@ -41,6 +43,12 @@ const routes = [
         path: '/categoryChildren',
         name: 'CategoryChildren',
         component: CategoryChildren,
+      },
+
+      {
+        path: '/collection',
+        name: 'Collection',
+        component: Collection
       }
     ]
   },

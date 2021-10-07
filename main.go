@@ -58,6 +58,9 @@ func main()  {
 			v1.POST("/GetUser", controller.GetUser)
 			{
 				v1.GET("/ShowCollection", controller.ShowCollection)
+				v1.POST("/InsertCollection", controller.InsertCollection)
+				v1.GET("/ShowCollectionById", controller.ShowCollectionById)
+				v1.POST("/DeleteCollection", controller.DeleteCollection)
 			}
 		}
 

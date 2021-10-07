@@ -67,7 +67,7 @@
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" @click="onClickIcon" />
       <van-goods-action-icon icon="cart-o" text="购物车" @click="onClickIcon" />
-      <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" />
+      <van-goods-action-icon icon="star" text="收藏" color="#ff5000" @click="InsertCollection"/>
       <van-goods-action-button type="warning" text="加入购物车" />
       <van-goods-action-button
         type="danger"
@@ -301,6 +301,21 @@ export default {
         this.count++;
       }, 1000);
     },
+    InsertCollection() {
+      let co = {
+        shop_id: this.data
+      }
+      this.$API.get(api.SHOP_COLLECTION_BYID, co).then(res => {
+        if (res.data.count == 0) {
+          this.$API.post(api.SHOP_INSERT_COLLECTION, co).then(res => {
+            this.$toast("收藏成功")
+          })
+        } else {
+          this.$toast("收藏成功")
+        }
+      })
+      
+    }
 
   },
   mounted() {

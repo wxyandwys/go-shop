@@ -78,7 +78,8 @@ export default {
                 url,
                 params: data,
                 headers: {
-                    'Token': 11111
+                    'Token': 11111,
+                    'AccessToken': store.state.user != null ? store.state.user : ''
                 }
             })
                 .then(res => {

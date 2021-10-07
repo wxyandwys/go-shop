@@ -29,8 +29,16 @@ var api = {
   // 验证码
   CAPTCHA: CAPTCHA,
   // 获取用户
-  SHOP_USER: HOME + "/GetUser"
+  SHOP_USER: HOME + "/GetUser",
 
+  //添加收藏
+  SHOP_INSERT_COLLECTION: HOME + "/InsertCollection",
+  // 查询用户是否收藏商品
+  SHOP_COLLECTION_BYID: HOME + "/ShowCollectionById",
+  // 查询用户所有收藏商品
+  SHOP_COLLECTION: HOME + "/ShowCollection",
+  // 删除收藏
+  SHOP_DELETE_COLLECTOPN: HOME + "/DeleteCollection"
 }
 
 export default api

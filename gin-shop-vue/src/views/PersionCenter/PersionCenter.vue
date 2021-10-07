@@ -20,7 +20,7 @@
       <van-cell title="订单" is-link  />
       <van-cell title="足迹" is-link  />
       <van-cell title="地址" is-link  />
-      <van-cell title="收藏" is-link  />
+      <van-cell title="收藏" is-link @click="Collection" />
     </van-cell-group>
     <br>
     <van-cell-group inset>
@@ -50,6 +50,9 @@ export default {
       this.$API.post(api.SHOP_USER, user).then(res => {
         this.user = res.data.user
       })
+    },
+    Collection() {
+      this.$router.push({name: "Collection"})
     }
   },
   created() {
