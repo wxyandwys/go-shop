@@ -7,6 +7,9 @@ import Persion from '../views/Persion.vue'
 import CategoryChildren from '../views/CategoryChildren.vue'
 
 import Collection from '../views/PersionCenter/Collection.vue'
+import Address from '../views/PersionCenter/Address.vue'
+import AddressAdd from '../views/PersionCenter/AddressAdd.vue'
+import AddressEdit from '../views/PersionCenter/AddressEdit.vue'
 
 import TarbalHeader from '../views/TarbalHeader.vue'
 
@@ -45,11 +48,7 @@ const routes = [
         component: CategoryChildren,
       },
 
-      {
-        path: '/collection',
-        name: 'Collection',
-        component: Collection
-      }
+      
     ]
   },
 
@@ -57,6 +56,27 @@ const routes = [
     path: '/shopData',
     name: 'shopData',
     component: () => import('../views/Shops/Shops.vue')
+  },
+
+  {
+    path: '/collection',
+    name: 'Collection',
+    component: Collection
+  },
+  {
+    path: '/address',
+    name: 'Address',
+    component: Address
+  },
+  {
+    path: '/addressAdd',
+    name: 'AddressAdd',
+    component: AddressAdd
+  },
+  {
+    path: '/addressEdit',
+    name: 'AddressEdit',
+    component: AddressEdit
   }
   /*
   {

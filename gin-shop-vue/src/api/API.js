@@ -38,7 +38,16 @@ var api = {
   // 查询用户所有收藏商品
   SHOP_COLLECTION: HOME + "/ShowCollection",
   // 删除收藏
-  SHOP_DELETE_COLLECTOPN: HOME + "/DeleteCollection"
+  SHOP_DELETE_COLLECTOPN: HOME + "/DeleteCollection",
+
+  // 添加地址
+  SHOP_INSERT_ADDRESS: HOME + "/InsertAddress",
+  // 查询地址
+  SHOP_ADDRESS: HOME + "/ShowAddress",
+  // 修改地址
+  SHOP_UPDATE_ADDRESS: HOME + "/UpdateAddress",
+  // 查询地址id
+  SHOP_ADDRESS_BYID: HOME + "/ShowAddressById"
 }
 
 export default api

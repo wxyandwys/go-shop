@@ -56,11 +56,19 @@ func main()  {
 		{
 			v1.Use(config.LoginUser())
 			v1.POST("/GetUser", controller.GetUser)
+			// 收藏
 			{
 				v1.GET("/ShowCollection", controller.ShowCollection)
 				v1.POST("/InsertCollection", controller.InsertCollection)
 				v1.GET("/ShowCollectionById", controller.ShowCollectionById)
 				v1.POST("/DeleteCollection", controller.DeleteCollection)
+			}
+			// 地址
+			{
+				v1.POST("/InsertAddress", controller.InsertAddress)
+				v1.GET("/ShowAddress", controller.ShowAddress)
+				v1.POST("/UpdateAddress", controller.UpdateAddress)
+				v1.GET("/ShowAddressById", controller.ShowAddressById)
 			}
 		}
 

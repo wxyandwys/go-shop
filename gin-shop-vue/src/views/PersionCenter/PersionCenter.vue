@@ -19,7 +19,7 @@
       <van-cell title="余额" is-link  />
       <van-cell title="订单" is-link  />
       <van-cell title="足迹" is-link  />
-      <van-cell title="地址" is-link  />
+      <van-cell title="地址" is-link @click="Address" />
       <van-cell title="收藏" is-link @click="Collection" />
     </van-cell-group>
     <br>
@@ -53,6 +53,9 @@ export default {
     },
     Collection() {
       this.$router.push({name: "Collection"})
+    },
+    Address() {
+      this.$router.push({name: "Address"})
     }
   },
   created() {
