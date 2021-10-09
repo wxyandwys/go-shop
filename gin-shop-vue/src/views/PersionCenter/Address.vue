@@ -12,6 +12,7 @@
       :list="list"
       @add="onAdd"
       @edit="onEdit"
+      
     />
   </div>
 </template>
@@ -67,7 +68,8 @@ export default {
         }
         this.list = list
       })
-    }
+    },
+    
   },
   watch: {
     chosenAddressId() {

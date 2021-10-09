@@ -47,7 +47,9 @@ var api = {
   // 修改地址
   SHOP_UPDATE_ADDRESS: HOME + "/UpdateAddress",
   // 查询地址id
-  SHOP_ADDRESS_BYID: HOME + "/ShowAddressById"
+  SHOP_ADDRESS_BYID: HOME + "/ShowAddressById",
+  //删掉地址id
+  SHOP_DELETE_ADDRESS_BYID: HOME + "/DeleteAddressById",
 }
 
 export default api

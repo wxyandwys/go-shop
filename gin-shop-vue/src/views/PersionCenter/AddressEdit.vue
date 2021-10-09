@@ -11,8 +11,10 @@
       :area-list="areaList"
       show-postal
       show-set-default
+      show-delete
       :area-columns-placeholder="['请选择', '请选择', '请选择']"
       @save="onSave"
+      @delete="onDelete"
       :address-info="address"
     />
   </div>
@@ -48,6 +50,12 @@ export default {
       }
       this.$API.get(api.SHOP_ADDRESS_BYID, user).then(res => {
         this.address = res.data.address
+      })
+    },
+    onDelete(e) {
+      this.$API.post(api.SHOP_DELETE_ADDRESS_BYID, e).then(res => {
+        this.$toast('已删除')
+        this.$router.push({name: "Address"})
       })
     }
   },

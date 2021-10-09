@@ -69,6 +69,7 @@ func main()  {
 				v1.GET("/ShowAddress", controller.ShowAddress)
 				v1.POST("/UpdateAddress", controller.UpdateAddress)
 				v1.GET("/ShowAddressById", controller.ShowAddressById)
+				v1.POST("/DeleteAddressById", controller.DeleteAddressById)
 			}
 		}
 

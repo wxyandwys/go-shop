@@ -13,7 +13,6 @@
       show-set-default
       :area-columns-placeholder="['请选择', '请选择', '请选择']"
       @save="onSave"
-      
     />
   </div>
 </template>
@@ -39,7 +38,7 @@ export default {
     },
     onChange(e) {
       console.log(e)
-    }
+    },
   }
 }
 </script>
